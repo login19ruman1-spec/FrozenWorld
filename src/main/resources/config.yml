@@ -1,22 +1,28 @@
-# FrozenWorld — основные настройки
+# FrozenWorld — Paper 1.21.4 / Java 21
 worlds:
-  # Пустой список означает все загруженные миры.
+  # Пусто = все миры.
   enabled: []
 
 winter:
-  # Автоматически включать зиму при запуске сервера.
   start-frozen: false
-  # Включать снегопад при активации зимы.
-  snowfall-on-freeze: true
-  # Продолжительность обновления погоды в тиках.
-  weather-duration: 12000
+  stop-time-on-enable: false
+
+time:
+  stop-on-winter: false
+  resume-on-winter-disable: true
+  stopped: false
 
 snow:
   enabled: true
-  # Количество слоёв снега, которое будет добавляться за один цикл.
   layers-per-cycle: 1
-  # Интервал накопления снега в секундах.
-  accumulation-interval-seconds: 30
 
-messages:
-  prefix: "&b[FrozenWorld] "
+water:
+  enabled: true
+
+heat:
+  radius: 3
+
+performance:
+  # Сколько колонок уже загруженных чанков обрабатывается за один цикл.
+  # Увеличение ускоряет снег/лёд, но повышает нагрузку.
+  columns-per-pulse: 96
