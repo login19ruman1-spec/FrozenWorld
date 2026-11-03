@@ -1,5 +1,8 @@
 package dev.frozenworld;
 
+import dev.frozenworld.manager.WinterClimate;
+import dev.frozenworld.manager.WinterStorage;
+
 import org.bukkit.*;
 import org.bukkit.command.*;
 import org.bukkit.entity.*;
