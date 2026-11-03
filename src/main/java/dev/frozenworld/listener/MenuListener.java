@@ -1,20 +1,16 @@
 package dev.frozenworld.listener;
 
-import dev.frozenworld.FrozenWorldPlugin;
 import dev.frozenworld.menu.MenuHolder;
 import dev.frozenworld.menu.WinterMenu;
-import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 
 public final class MenuListener implements Listener {
-    private final FrozenWorldPlugin plugin;
     private final WinterMenu menu;
 
-    public MenuListener(FrozenWorldPlugin plugin, WinterMenu menu) {
-        this.plugin = plugin;
+    public MenuListener(WinterMenu menu) {
         this.menu = menu;
     }
 
@@ -23,7 +19,8 @@ public final class MenuListener implements Listener {
         if (!(event.getView().getTopInventory().getHolder() instanceof MenuHolder)) return;
         event.setCancelled(true);
         if (!(event.getWhoClicked() instanceof org.bukkit.entity.Player player)) return;
-        if (!event.getClickedInventoryIsTop()) return;
+        if (event.getClickedInventory() == null
+                || event.getClickedInventory() != event.getView().getTopInventory()) return;
 
         ItemStack clicked = event.getCurrentItem();
         if (clicked == null || clicked.getType().isAir()) return;
