@@ -21,7 +21,7 @@ public final class FrozenWorldPlugin extends JavaPlugin {
         FrozenWorldCommand command = new FrozenWorldCommand(this, winterMenu);
         getCommand("frozenworld").setExecutor(command);
         getCommand("frozenworld").setTabCompleter(command);
-        getServer().getPluginManager().registerEvents(new MenuListener(this, winterMenu), this);
+        getServer().getPluginManager().registerEvents(new MenuListener(winterMenu), this);
 
         winterManager.start();
         getLogger().info("FrozenWorld включён. Да начнётся вечная зима!");
