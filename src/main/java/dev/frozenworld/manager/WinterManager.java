@@ -109,7 +109,7 @@ public final class WinterManager {
     }
 
     public void restoreTime() {
-        ServerTickManager manager = Bukkit.getServer().getServerTickManager();
+        var manager = Bukkit.getServer().getServerTickManager();
         if (manager.isFrozen()) manager.setFrozen(false);
     }
 
