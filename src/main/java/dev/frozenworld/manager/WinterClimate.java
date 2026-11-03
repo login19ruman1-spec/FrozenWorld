@@ -1,5 +1,7 @@
 package dev.frozenworld.manager;
 
+import dev.frozenworld.FrozenWorldPlugin;
+
 import org.bukkit.*;
 import org.bukkit.block.Biome;
 import org.bukkit.block.Block;
