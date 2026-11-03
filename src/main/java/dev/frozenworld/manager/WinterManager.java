@@ -138,7 +138,6 @@ public final class WinterManager {
 
     private void climatePulse() {
         if (!frozen) return;
-        List<World.Chunk> unused = List.of(); // no chunk loading: only already-loaded chunks are inspected
         List<org.bukkit.Chunk> chunks = new ArrayList<>();
         for (World world : targetWorlds()) {
             if (world.getEnvironment() != World.Environment.NORMAL) continue;
