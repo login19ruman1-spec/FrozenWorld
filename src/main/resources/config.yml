@@ -1,0 +1,22 @@
+# FrozenWorld — основные настройки
+worlds:
+  # Пустой список означает все загруженные миры.
+  enabled: []
+
+winter:
+  # Автоматически включать зиму при запуске сервера.
+  start-frozen: false
+  # Включать снегопад при активации зимы.
+  snowfall-on-freeze: true
+  # Продолжительность обновления погоды в тиках.
+  weather-duration: 12000
+
+snow:
+  enabled: true
+  # Количество слоёв снега, которое будет добавляться за один цикл.
+  layers-per-cycle: 1
+  # Интервал накопления снега в секундах.
+  accumulation-interval-seconds: 30
+
+messages:
+  prefix: "&b[FrozenWorld] "
