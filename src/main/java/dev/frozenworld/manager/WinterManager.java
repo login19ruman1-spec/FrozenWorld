@@ -126,6 +126,7 @@ public final class WinterManager {
 
     public void toggleWaterFreeze() {
         waterFreezeEnabled = !waterFreezeEnabled;
+        if (!waterFreezeEnabled) restoreFrozenWater();
         plugin.getConfig().set("water.enabled", waterFreezeEnabled);
         plugin.saveConfig();
     }
@@ -167,6 +168,14 @@ public final class WinterManager {
         int y = world.getHighestBlockYAt(x, z);
         if (y <= world.getMinHeight() || y >= world.getMaxHeight() - 1) return;
         Block ground = world.getBlockAt(x, y, z);
+        if (ground.getType() == Material.SNOW) {
+            Snow existing = (Snow) ground.getBlockData();
+            if (existing.getLayers() < 8 && !isWarmNearby(ground)) {
+                existing.setLayers(Math.min(8, existing.getLayers() + snowLayers));
+                ground.setBlockData(existing, false);
+            }
+            return;
+        }
         if (!ground.getType().isSolid() || ground.isLiquid()) return;
         if (ground.getBiome() == Biome.DESERT || ground.getBiome() == Biome.BADLANDS
                 || ground.getBiome() == Biome.ERODED_BADLANDS || ground.getBiome() == Biome.WOODED_BADLANDS) return;
