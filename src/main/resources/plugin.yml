@@ -1,0 +1,15 @@
+name: FrozenWorld
+version: '${version}'
+main: dev.frozenworld.FrozenWorldPlugin
+api-version: '1.21'
+author: FrozenWorld
+description: Вечная зима — управление заморозкой мира, снегом и зимними настройками.
+commands:
+  frozenworld:
+    description: Открыть меню FrozenWorld
+    usage: /frozenworld
+    aliases: [fw, зима]
+permissions:
+  frozenworld.admin:
+    description: Полный доступ к управлению FrozenWorld
+    default: op
