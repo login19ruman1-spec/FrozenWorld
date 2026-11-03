@@ -11,7 +11,6 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.block.data.type.Snow;
 import org.bukkit.scheduler.BukkitTask;
-import org.bukkit.ServerTickManager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -105,7 +104,7 @@ public final class WinterManager {
     }
 
     public void stopTime() {
-        ServerTickManager manager = Bukkit.getServer().getServerTickManager();
+        var manager = Bukkit.getServer().getServerTickManager();
         manager.setFrozen(true);
     }
 
