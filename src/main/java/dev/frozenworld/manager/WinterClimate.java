@@ -86,19 +86,19 @@ public final class WinterClimate {
 
         c.addDefault("snow.interval-seconds", 90);
         c.addDefault("snow.duration-seconds", 45);
-        c.addDefault("snow.grow-seconds", 4.0);
+        c.addDefault("snow.grow-seconds", 2.5);
         c.addDefault("snow.melt-seconds", 0.6);
         c.addDefault("snow.paused", false);
-        c.addDefault("snow.particles-per-step", 120);
+        c.addDefault("snow.particles-per-step", 240);
 
         c.addDefault("weather.real-snow", true);
         c.addDefault("weather.dark-sky", true);
 
         // Новые названия: старые бюджеты не замедляют обновление.
-        c.addDefault("performance.snow-columns", 64);
-        c.addDefault("performance.water-columns", 192);
-        c.addDefault("performance.cover-updates", 192);
-        c.addDefault("performance.ice-updates", 96);
+        c.addDefault("performance.snow-columns", 96);
+        c.addDefault("performance.water-columns", 128);
+        c.addDefault("performance.cover-updates", 128);
+        c.addDefault("performance.ice-updates", 64);
 
         c.options().copyDefaults(true);
         plugin.saveConfig();
@@ -158,16 +158,17 @@ public final class WinterClimate {
             }
         }
 
-        if (pulse % 10 == 0) {
+        if (pulse % 25 == 0) {
             warmthCache.clear();
             rebuildHeat();
-
-            if (enabled()) {
-                updateCold(now);
-            }
         }
 
-        if (pulse % 20 == 0) {
+        if (pulse % 20 == 0 && enabled()) {
+            updateCold(now);
+        }
+
+        // Не пересобираем список всех загруженных чанков каждые две секунды.
+        if (pulse % 100 == 0) {
             refreshChunks();
         }
 
