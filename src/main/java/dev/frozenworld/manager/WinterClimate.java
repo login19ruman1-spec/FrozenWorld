@@ -79,6 +79,7 @@ public final class WinterClimate {
         c.addDefault("cold.hostile-y", y);
         c.addDefault("cold.grace-seconds", 15);
         c.addDefault("cold.damage", 1.0);
+        c.addDefault("cold.damage-multiplier", 1.0);
         c.addDefault("cold.damage-interval-seconds", 2);
         c.addDefault("cold.night-enabled", true);
         c.addDefault("cold.night-multiplier", 2.0);
@@ -89,15 +90,15 @@ public final class WinterClimate {
         c.addDefault("snow.grow-seconds", 2.5);
         c.addDefault("snow.melt-seconds", 0.6);
         c.addDefault("snow.paused", false);
-        c.addDefault("snow.particles-per-step", 240);
+        c.addDefault("snow.particles-per-step", 360);
 
         c.addDefault("weather.real-snow", true);
         c.addDefault("weather.dark-sky", true);
 
         // Новые названия: старые бюджеты не замедляют обновление.
-        c.addDefault("performance.snow-columns", 96);
+        c.addDefault("performance.snow-columns", 112);
         c.addDefault("performance.water-columns", 128);
-        c.addDefault("performance.cover-updates", 128);
+        c.addDefault("performance.cover-updates", 144);
         c.addDefault("performance.ice-updates", 64);
 
         c.options().copyDefaults(true);
@@ -1148,6 +1149,9 @@ public final class WinterClimate {
                 0, Math.min(20,
                         plugin.getConfig().getDouble("cold.damage"))
         );
+        double severity = Math.max(0.1, Math.min(10.0,
+                plugin.getConfig().getDouble("cold.damage-multiplier", 1.0)));
+        basicDamage *= severity;
 
         for (World world : Bukkit.getWorlds()) {
             if (!normal(world)) {
