@@ -118,13 +118,16 @@ public final class FrozenWorldPlugin extends JavaPlugin
         c.addDefault("freeze.interval-seconds", 300);
         c.addDefault("freeze.duration-seconds", 10);
 
-        c.addDefault("snow.layers", 8);
+        c.addDefault("snow.layers", 24);
+        if (c.getInt("snow.layers", 24) == 8) {
+            c.set("snow.layers", 24);
+        }
         c.addDefault("snow.long", false);
         c.addDefault("snow.max-layers", 64);
         if (c.getInt("snow.max-layers", 64) == 32) {
             c.set("snow.max-layers", 64);
         }
-        c.addDefault("snow.particles-per-step", 360);
+        c.addDefault("snow.particles-per-step", 320);
         c.addDefault("snow.grow-seconds", 2.5);
         c.addDefault("cold.damage", 1.0);
         c.addDefault("cold.damage-multiplier", 1.0);
