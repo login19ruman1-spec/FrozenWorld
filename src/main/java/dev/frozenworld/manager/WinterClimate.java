@@ -85,12 +85,18 @@ public final class WinterClimate {
         c.addDefault("cold.night-multiplier", 2.0);
         c.addDefault("cold.handheld-torch-enabled", true);
 
-        c.addDefault("snow.interval-seconds", 90);
-        c.addDefault("snow.duration-seconds", 45);
-        c.addDefault("snow.grow-seconds", 2.5);
+        c.addDefault("snow.interval-seconds", 120);
+        c.addDefault("snow.duration-seconds", 120);
+        if (c.getInt("snow.duration-seconds", 120) == 45) {
+            c.set("snow.duration-seconds", 120);
+        }
+        c.addDefault("snow.grow-seconds", 1.5);
+        if (c.getDouble("snow.grow-seconds", 1.5) == 2.5) {
+            c.set("snow.grow-seconds", 1.5);
+        }
         c.addDefault("snow.melt-seconds", 0.6);
         c.addDefault("snow.paused", false);
-        c.addDefault("snow.particles-per-step", 360);
+        c.addDefault("snow.particles-per-step", 320);
 
         c.addDefault("weather.real-snow", true);
         c.addDefault("weather.dark-sky", true);
