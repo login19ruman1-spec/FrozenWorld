@@ -120,7 +120,11 @@ public final class FrozenWorldPlugin extends JavaPlugin
 
         c.addDefault("snow.layers", 8);
         c.addDefault("snow.long", false);
-        c.addDefault("snow.max-layers", 16);
+        c.addDefault("snow.max-layers", 32);
+        c.addDefault("snow.particles-per-step", 240);
+        c.addDefault("snow.grow-seconds", 2.5);
+        c.addDefault("cold.damage", 1.0);
+        c.addDefault("cold.damage-interval-seconds", 2);
 
         c.addDefault("heat.torch", 3);
         c.addDefault("heat.lantern", 3);
@@ -348,6 +352,20 @@ public final class FrozenWorldPlugin extends JavaPlugin
                         "или второй руке, чтобы не замёрзнуть"
                 ));
 
+                inv.setItem(25, button(
+                        Material.IRON_SWORD,
+                        "Урон от мороза: " + getConfig().getDouble("cold.damage"),
+                        "Урон за один удар",
+                        "ЛКМ +0.5; ПКМ -0.5; Shift ×10"
+                ));
+
+                inv.setItem(26, button(
+                        Material.CLOCK,
+                        "Интервал урона: " + getConfig().getInt("cold.damage-interval-seconds") + " сек.",
+                        "Чем меньше интервал, тем опаснее мороз",
+                        "ЛКМ +1; ПКМ -1; Shift ×10"
+                ));
+
                 inv.setItem(31, button(
                         Material.CAMPFIRE, "Источники тепла",
                         "Настроить радиусы"
@@ -418,6 +436,13 @@ public final class FrozenWorldPlugin extends JavaPlugin
                         "Скорость замерзания: "
                                 + getConfig().getInt("performance.water-columns"),
                         "Столбцов за проход",
+                        "ЛКМ +16; ПКМ -16; Shift ×10"
+                ));
+
+                inv.setItem(21, button(
+                        Material.SNOW_BLOCK,
+                        "Скорость накопления: " + getConfig().getInt("performance.snow-columns"),
+                        "Колонок снега за проход",
                         "ЛКМ +16; ПКМ -16; Shift ×10"
                 ));
 
@@ -567,6 +592,12 @@ public final class FrozenWorldPlugin extends JavaPlugin
                         case 22 -> next = Page.SNOW;
                         case 23 -> toggle("cold.night-enabled");
                         case 24 -> toggle("cold.handheld-torch-enabled");
+                        case 25 -> {
+                            double value = getConfig().getDouble("cold.damage")
+                                    + step * (event.isShiftClick() ? 2.5 : 0.5);
+                            getConfig().set("cold.damage", Math.max(0.5, Math.min(20.0, value)));
+                        }
+                        case 26 -> change("cold.damage-interval-seconds", step, 1, 30);
                         case 31 -> next = Page.HEAT;
                         default -> { }
                     }
@@ -605,6 +636,10 @@ public final class FrozenWorldPlugin extends JavaPlugin
                         case 20 -> change(
                                 "performance.water-columns",
                                 step * 16, 16, 1024
+                        );
+                        case 21 -> change(
+                                "performance.snow-columns",
+                                step * 16, 16, 512
                         );
                         case 22 -> {
                             if (requireWinter(player)) {
