@@ -120,10 +120,14 @@ public final class FrozenWorldPlugin extends JavaPlugin
 
         c.addDefault("snow.layers", 8);
         c.addDefault("snow.long", false);
-        c.addDefault("snow.max-layers", 32);
-        c.addDefault("snow.particles-per-step", 240);
+        c.addDefault("snow.max-layers", 64);
+        if (c.getInt("snow.max-layers", 64) == 32) {
+            c.set("snow.max-layers", 64);
+        }
+        c.addDefault("snow.particles-per-step", 360);
         c.addDefault("snow.grow-seconds", 2.5);
         c.addDefault("cold.damage", 1.0);
+        c.addDefault("cold.damage-multiplier", 1.0);
         c.addDefault("cold.damage-interval-seconds", 2);
 
         c.addDefault("heat.torch", 3);
@@ -355,7 +359,7 @@ public final class FrozenWorldPlugin extends JavaPlugin
                 inv.setItem(25, button(
                         Material.IRON_SWORD,
                         "Урон от мороза: " + getConfig().getDouble("cold.damage"),
-                        "Урон за один удар",
+                        "Базовый урон за один удар",
                         "ЛКМ +0.5; ПКМ -0.5; Shift ×10"
                 ));
 
@@ -364,6 +368,14 @@ public final class FrozenWorldPlugin extends JavaPlugin
                         "Интервал урона: " + getConfig().getInt("cold.damage-interval-seconds") + " сек.",
                         "Чем меньше интервал, тем опаснее мороз",
                         "ЛКМ +1; ПКМ -1; Shift ×10"
+                ));
+
+                inv.setItem(27, button(
+                        Material.IRON_BLOCK,
+                        "Сила мороза: ×" + getConfig().getDouble("cold.damage-multiplier", 1.0),
+                        "Множитель всего урона от холода",
+                        "ЛКМ +0.5; ПКМ -0.5; Shift ×2.5",
+                        "Диапазон ×0.1 — ×10"
                 ));
 
                 inv.setItem(31, button(
@@ -598,6 +610,12 @@ public final class FrozenWorldPlugin extends JavaPlugin
                             getConfig().set("cold.damage", Math.max(0.5, Math.min(20.0, value)));
                         }
                         case 26 -> change("cold.damage-interval-seconds", step, 1, 30);
+                        case 27 -> {
+                            double value = getConfig().getDouble("cold.damage-multiplier", 1.0)
+                                    + step * (event.isShiftClick() ? 2.5 : 0.5);
+                            getConfig().set("cold.damage-multiplier",
+                                    Math.max(0.1, Math.min(10.0, Math.round(value * 10.0) / 10.0)));
+                        }
                         case 31 -> next = Page.HEAT;
                         default -> { }
                     }
